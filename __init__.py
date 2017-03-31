@@ -10,3 +10,4 @@ db = SQLAlchemy(app)
 Migrate = Migrate(app, db)
 
 from user import views
+from dashboard import views

@@ -10,8 +10,8 @@ class User(db.Model):
     password = db.Column(db.String(60))
 
 
-    def __init__(self,first_name,last_name,email,username,password):
-        self.full_name = self.first_name+' '+self.last_name
+    def __init__(self,full_name,first_name,last_name,email,username,password):
+        self.full_name = full_name
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
