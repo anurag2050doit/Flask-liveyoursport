@@ -1,5 +1,4 @@
 from liveyoursport import app, db
-from user.form import ResgisterForm, LoginForm
 from flask import render_template, redirect, url_for, session, request
 from user.models import User
 from user.forms import LoginForm, ResgisterForm
