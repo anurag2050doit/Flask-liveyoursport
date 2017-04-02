@@ -44,8 +44,6 @@ def signup():
         salt = bcrypt.gensalt()
         hashed_password = bcrypt.hashpw(form.password.data, salt)
         full_name = form.first_name.data + ' ' + form.last_name.data
-        print form.first_name.data, form.last_name.data
-        print full_name
         user = User(
             full_name,
             form.first_name.data,

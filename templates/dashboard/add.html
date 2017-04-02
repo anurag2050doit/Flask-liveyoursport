@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %} Home {% endblock %}
+{% block title %}Create Order{% endblock %}
 
 {% block content %}
 <nav class="navbar navbar-inverse">
@@ -13,13 +13,13 @@
     </div>
     <div class="collapse navbar-collapse"  id="topNavBar">
       <ul class="nav navbar-nav">
-        <li class="active">
-          <a href="{{ url_for('index') }}">
+        <li>
+          <a href="{{ url_for('index') }} ">
             <span class="glyphicon glyphicon-user"></span>
             {{ session.get('username') }}
           </a>
         </li>
-        <li>
+        <li class="active">
           <a href="{{ url_for('add') }}">
               <span class="glyphicon glyphicon-plus"></span>&nbsp;New Order
           </a>
@@ -32,6 +32,7 @@
             </a>
           </li>
         </ul>
+        {% if orders %}
         <form class="navbar-form navbar-right" action="{{ url_for('index') }}" method="post">
           <div class="form-group">
             <div class="input-group">
@@ -53,55 +54,38 @@
             <button type="submit" class="btn btn-default">Go</button>
           </div>
         </form>
+        {% endif %}
     </div>
   </div>
 </nav>
 
-<div class="table">
-  <table class="table table-responsive table-hover table-bordered table-striped">
-    <thead>
-      <tr>
-        <th class="col-sm-1">#</th>
-        <th class="col-sm-1">Order ID</th>
-        <th class="col-sm-1">Order Status</th>
-        <th class="col-sm-4">Product  Name</th>
-        <th class="col-sm-3">Product Url</th>
-        <th class="col-sm-1">Cost Price</th>
-        <th class="col-sm-2">Order Date</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for order in orders.items %}
-      <tr>
-        <td>{{ order.id }}</td>
-        <td>{{ order.order_id }}</td>
-        <td>{{ order.order_status }}</td>
-        <td>{{ order.product_name }}</td>
-        <td>
-          <a href="{{ order.product_url }}">{{ order.product_url }}</a>
-        </td>
-        <td>{{ order.cost_price }}</td>
-        <td>{{ order.order_date.strftime('%Y-%m-%d') }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+<div class="row">
+  <div class="col-md-offset-3 col-md-6">
+
+    {% from "_formhelpers.html" import render_field %}
+    <form role="form" action="{{ url_for('add')}}" method="post" enctype="multipart/form-data">
+
+
+      {{ form.hidden_tag() }}
+
+      <p>{{ render_field(form.order_id, class="form-control") }}</p>
+      <p>{{ render_field(form.order_status, class="form-control") }}</p>
+      <p>{{ render_field(form.product_name, class="form-control") }}</p>
+      <p>{{ render_field(form.product_url, class="form-control") }}</p>
+      <p>{{ render_field(form.cost_price, class="form-control") }}</p>
+
+      <br>
+      <button type="submit" class="btn btn-primary pull-right" name="button">Create Order</button>
+      {% if error %}
+      <div class="error text-danger">
+        <ul>
+          <li>
+            {{ error }}
+          </li>
+        </ul>
+      </div>
+    {% endif %}
+  </div>
 </div>
-  <ul class="pager">
-  {% if orders.has_prev %}
-    <li class="previous">
-      <a href="{{ url_for('index', page=orders.prev_num) }}">
-      Previous
-      </a>
-    </li>
-  {% endif %}
-  {% if orders.has_next %}
-  <li class="next">
-    <a href="{{ url_for('index', page=orders.next_num) }}">
-    Next
-    </a>
-  </li>
-  {% endif %}
-</ul>
 
 {% endblock %}
